@@ -9,6 +9,8 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import App from './App';
+import { Provider } from 'react-redux';
+import store from './store';
 import reportWebVitals from './reportWebVitals';
 import HomeScreens from './screens/HomeScreens';
 import ProductScreen from './screens/ProductScreen';
@@ -25,7 +27,9 @@ const router = createBrowserRouter(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <RouterProvider router={router}/>
+    </Provider>
   </React.StrictMode>
 );
 
