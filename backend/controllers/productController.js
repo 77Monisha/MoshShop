@@ -5,7 +5,7 @@ import Product from '../models/productModel.js';
 // @route GET / api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
-    const pageSize = 1;
+    const pageSize = 8;
     const page = Number(req.query.pageNumber) || 1;
 
     const keyword = req.query.keyword ? { name: { $regex: req.query.keyword, $options: 'i'}} : {};
@@ -120,12 +120,18 @@ const createProductReview = asyncHandler(async (req, res) => {
 
         await product.save();
         res.status(201).json({ message: 'Review Added'});
-    }else{
+}else{
         res.status(404);
         throw new Error('Resource not found');
     }
 });
 
+// @desc Get top rated products
+// @route GET / api/products/top
+// @access Public
+const getTopProducts = asyncHandler(async (req, res) => {
+    const product = await Product.find({}).sort({rating : -1}).limit(3);
+    res.status(200).json(product);
+});
 
-
-export {getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview}
+export {getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview, getTopProducts}
